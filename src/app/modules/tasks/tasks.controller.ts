@@ -30,7 +30,7 @@ const myTask = async (req: Request, res: Response) => {
   });
   try {
   } catch (error) {
-    res.status(400).send({
+    res.status(400).json({
       success: false,
       message: "can't get the data",
       error,
@@ -53,9 +53,43 @@ const singleTask = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    res.status(400).send({
+    res.status(400).json({
       success: false,
       message: "can't get the data",
+      error,
+    });
+  }
+};
+
+const editTask = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    const data = req.body;
+    console.log(data);
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, error: "Not a valid id" });
+    }
+
+    const result = await taskService.editTask(id, req.body);
+    if (!result.modifiedCount) {
+      return res.status(400).json({
+        success: false,
+        error: "couldn't update the task with this id",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully update the task",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "could't update the task",
       error,
     });
   }
@@ -90,4 +124,4 @@ const deleteTask = async (req: Request, res: Response) => {
   }
 };
 
-export default { createTask, myTask, singleTask, deleteTask };
+export default { createTask, myTask, singleTask, deleteTask, editTask };
