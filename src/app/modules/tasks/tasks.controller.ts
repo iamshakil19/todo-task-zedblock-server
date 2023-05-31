@@ -21,14 +21,13 @@ const createTask = async (req: Request, res: Response) => {
 };
 
 const myTask = async (req: Request, res: Response) => {
-  const { email } = req.params;
-
-  const result = await taskService.myTask(email);
-  res.status(200).json({
-    success: true,
-    data: result,
-  });
   try {
+    const { email } = req.params;
+    const result = await taskService.myTask(email);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -95,6 +94,39 @@ const editTask = async (req: Request, res: Response) => {
   }
 };
 
+const editCompleted = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const data = req.body;
+    console.log(data, 103);
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, error: "Not a valid id" });
+    }
+
+    const result = await taskService.editCompleted(id, req.body);
+    if (!result.modifiedCount) {
+      return res.status(400).json({
+        success: false,
+        error: "couldn't update the task with this id",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully update the task",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "could't update the task",
+      error,
+    });
+  }
+};
+
 const deleteTask = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -124,4 +156,11 @@ const deleteTask = async (req: Request, res: Response) => {
   }
 };
 
-export default { createTask, myTask, singleTask, deleteTask, editTask };
+export default {
+  createTask,
+  myTask,
+  singleTask,
+  deleteTask,
+  editTask,
+  editCompleted,
+};

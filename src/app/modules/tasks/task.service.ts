@@ -34,10 +34,32 @@ const editTask = async (id: string, data: ITask) => {
 
   return result;
 };
+const editCompleted = async (id: string, data: ITask) => {
+  console.log(id, data, 38);
+
+  const result = await Task.updateOne(
+    { _id: id },
+    { $set: data },
+    {
+      runValidators: true,
+    }
+  );
+
+  console.log(result, 32);
+
+  return result;
+};
 
 const deleteTask = async (id: string) => {
   const result = await Task.deleteOne({ _id: id });
   return result;
 };
 
-export default { createTask, myTask, singleTask, deleteTask, editTask };
+export default {
+  createTask,
+  myTask,
+  singleTask,
+  deleteTask,
+  editTask,
+  editCompleted,
+};

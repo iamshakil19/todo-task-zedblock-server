@@ -6,7 +6,8 @@ const router = express.Router();
 router.post("/create-task", tasksController.createTask);
 router.get("/:email", tasksController.myTask);
 router.get("/single-task/:id", tasksController.singleTask);
-router.delete("/:id", tasksController.deleteTask)
-router.patch("/:id", tasksController.editTask)
+router.delete("/:id", tasksController.deleteTask);
+router.patch("/:id", tasksController.editTask);
+router.patch("/completed/:id", tasksController.editCompleted);
 
 export default router;
