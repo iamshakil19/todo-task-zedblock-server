@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config from "./config";
 import { IUser } from "./app/modules/users/users.interface";
 
-const generateToken = (userInfo: IUser) => {
+const generateToken = (userInfo) => {
   const payload = {
     email: userInfo.email,
   };

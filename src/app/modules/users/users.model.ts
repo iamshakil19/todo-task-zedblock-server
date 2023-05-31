@@ -1,9 +1,8 @@
 import { Model, Schema, model } from "mongoose";
-import validator from "validator";
 import { IUser } from "./users.interface";
 import bcrypt from "bcryptjs";
 
-type UserModel = Model<IUser, object>;
+// type UserModel = Model<IUser, object>;
 
 const userSchema = new Schema<IUser>(
   {
@@ -16,26 +15,12 @@ const userSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      validate: [validator.isEmail, "Provide a valid email"],
       lowercase: true,
-      unique: true,
       required: [true, "Email address is required"],
     },
     password: {
       type: String,
       required: [true, "Password is required"],
-      validate: {
-        validator: (value) =>
-          validator.isStrongPassword(value, {
-            minLength: 6,
-            maxLength: 15,
-            minLowercase: 1,
-            minNumbers: 1,
-            minUppercase: 1,
-            minSymbols: 1,
-          }),
-        message: "Password {VALUE} is not strong enough.",
-      },
     },
   },
   {
@@ -46,10 +31,8 @@ const userSchema = new Schema<IUser>(
 userSchema.pre("save", function (next) {
   const password = this.password;
   const hashedPassword = bcrypt.hashSync(password);
-
   this.password = hashedPassword;
-
   next();
 });
 
-export const User = model<IUser, UserModel>("User", userSchema);
+export const User = model<IUser>("User", userSchema);

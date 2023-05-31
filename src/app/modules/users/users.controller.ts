@@ -5,16 +5,14 @@ import generateToken from "../../../token";
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const user = req.body;
-    const result = await usersService.createUser(user);
-    const token = generateToken(user);
-    const { password: pwd, ...others } = user.toObject();
+    const result = await usersService.createUser(req.body);
+    const token = generateToken(result);
 
     res.status(200).json({
       success: true,
       message: "User created successfully",
       data: {
-        user: others,
+        user: result,
         token,
       },
     });
@@ -30,8 +28,6 @@ const createUser = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
-
     if (!email || !password) {
       return res.status(401).send({
         success: false,

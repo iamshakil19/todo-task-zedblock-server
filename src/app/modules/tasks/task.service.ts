@@ -20,8 +20,6 @@ const singleTask = async (id: string): Promise<ITask | null> => {
 };
 
 const editTask = async (id: string, data: ITask) => {
-  console.log(id, data, 23);
-
   const result = await Task.updateOne(
     { _id: id },
     { $set: data },
@@ -29,14 +27,9 @@ const editTask = async (id: string, data: ITask) => {
       runValidators: true,
     }
   );
-
-  console.log(result, 32);
-
   return result;
 };
 const editCompleted = async (id: string, data: ITask) => {
-  console.log(id, data, 38);
-
   const result = await Task.updateOne(
     { _id: id },
     { $set: data },
@@ -44,9 +37,6 @@ const editCompleted = async (id: string, data: ITask) => {
       runValidators: true,
     }
   );
-
-  console.log(result, 32);
-
   return result;
 };
 

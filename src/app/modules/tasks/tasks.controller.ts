@@ -63,10 +63,7 @@ const singleTask = async (req: Request, res: Response) => {
 const editTask = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    console.log(id);
-
     const data = req.body;
-    console.log(data);
 
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, error: "Not a valid id" });
@@ -97,9 +94,7 @@ const editTask = async (req: Request, res: Response) => {
 const editCompleted = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
     const data = req.body;
-    console.log(data, 103);
 
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, error: "Not a valid id" });
