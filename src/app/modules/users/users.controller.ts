@@ -6,12 +6,9 @@ import generateToken from "../../../token";
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    console.log(user);
-
     const result = await usersService.createUser(user);
     const token = generateToken(user);
     const { password: pwd, ...others } = user.toObject();
-    console.log(result, "result");
 
     res.status(200).json({
       success: true,
